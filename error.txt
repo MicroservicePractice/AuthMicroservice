@@ -1,0 +1,6 @@
+PS C:\Users\Sandaru Yasas Herath\Documents\tuto\python\src\AuthMicroservice\manifests> kubectl apply -f ./
+[resource mapping not found for name: "auth-configmap" namespace: "" from "configmap.yaml": no matches for kind "ConfigMap" in version "apps/v1"
+ensure CRDs are installed first, resource mapping not found for name: "auth-secret" namespace: "" from "secret.yaml": no matches for kind "Secret" in version "apps/v1"
+ensure CRDs are installed first, resource mapping not found for name: "auth" namespace: "" from "service.yaml": no matches for kind "Service" in version "apps/v1"
+ensure CRDs are installed first]
+Error from server (BadRequest): error when creating "auth-deploy.yaml": Deployment in version "v1" cannot be handled as a Deployment: strict decoding error: unknown field "spec.strategy.RollingUpdate"
