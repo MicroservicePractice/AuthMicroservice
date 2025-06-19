@@ -12,7 +12,7 @@ spec:
       app: auth
   strategy:
     type: RollingUpdate
-    RollingUpdate:
+    rollingUpdate:
       maxSurge: 3
   
   template:
