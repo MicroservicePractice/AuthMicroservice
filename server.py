@@ -8,7 +8,7 @@ mysql = MySQL(server)
 #config
 server.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
 server.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'root')
-server.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', 'password')  
+server.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', '')  
 server.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'test_db')
 server.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306))
 
@@ -17,7 +17,7 @@ server.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306))
 def login():
     auth = request.authorization
     if not auth or not auth.username or not auth.password:
-        return {'message': 'Could not verify'}, 401
+        return 'Could not verify', 401
     
     #check db for username and password
     cursor = mysql.connection.cursor()
@@ -29,12 +29,12 @@ def login():
         email = user_row[0]
         password = user_row[1]
         if auth.username != email or auth.password != password:
-            return {'message': 'Could not verify'}, 401
+            return 'Could not verify', 401
         else:
             return createJWT(auth.username, os.environ.get('JWT_SECRET'), True)
         
     else:
-        return {'message': 'invalid credentials'}, 401
+        return 'invalid credentials', 401
     
 
 def createJWT(username, secret, is_admin):
@@ -51,16 +51,16 @@ def createJWT(username, secret, is_admin):
 def validate():
     token = request.headers.get('Authorization')
     if not token:
-        return {'message': 'Token is missing'}, 401
+        return 'Token is missing', 401
     
     try:
         token = token.split(" ")[1]  # Remove 'Bearer ' prefix
         payload = jwt.decode(token, os.environ.get('JWT_SECRET'), algorithms=['HS256'])
-        return {'message': 'Token is valid', 'user': payload['sub'], 'is_admin': payload['is_admin']}, 200
+        return payload, 200
     except jwt.ExpiredSignatureError:
-        return {'message': 'Token has expired'}, 401
+        return 'Token has expired', 401
     except jwt.InvalidTokenError:
-        return {'message': 'Invalid token'}, 401
+        return 'Invalid token', 401
 
 
 if __name__ == '__main__':
