@@ -9,8 +9,8 @@ mysql = MySQL(server)
 server.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
 server.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'root')
 server.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', '')  
-server.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'test_db')
-server.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306))
+server.config['MYSQL_DB'] = os.environ.get('MYSQL_DATABASE', 'test_db')
+server.config['MYSQL_PORT'] = int(os.environ.get('AUTH_PORT', 3306))
 
 
 @server.route('/login', methods=['POST'])
