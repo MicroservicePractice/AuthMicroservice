@@ -22,7 +22,7 @@ def login():
     #check db for username and password
     cursor = mysql.connection.cursor()
     res = cursor.execute(
-        "SELECT email, password FROM user WHERE email = %s", (auth.username,)
+        "SELECT email, password FROM users WHERE email = %s", (auth.username,)
         )
     if res > 0:
         user_row = cursor.fetchone()
@@ -39,7 +39,7 @@ def login():
 
 def createJWT(username, secret, is_admin):
     payload = {
-        'exp': datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=0, seconds=45),
+        'exp': datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1, seconds=20),
         'iat': datetime.datetime.now(tz=datetime.timezone.utc),
         'sub': username,
         'is_admin': is_admin
